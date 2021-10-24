@@ -1,0 +1,47 @@
+version: "3.8"
+services:   
+    mysql:
+        image: mysql:5.7
+        container_name: mysql
+        volumes: 
+            - mysql_data:/var/lib/mysql
+            - ./mysql/my.cnf:/etc/mysql/conf.d/my.conf
+        environment: 
+            - MYSQL_DATABASE=${DB_NAME}
+            - MYSQL_USER=${DB_USER}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+            - TZ=${TZ}
+        ports:
+            - 127.0.0.1:${DB_PORT}:3306
+
+    laravel:
+        build:
+            context: ./laravel
+            dockerfile: Dockerfile
+        container_name: laravel
+        volumes:
+            - ./laravel:/var/www/html
+
+    nginx:
+        image: nginx:latest
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        container_name: nginx
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./laravel:/var/www/html
+        restart: always
+        depends_on:
+            - laravel
+            - mysql
+    mail:
+        image: mailhog/mailhog
+        ports:
+            - "127.0.0.1:8025:8025"
+volumes:
+    mysql_data:
