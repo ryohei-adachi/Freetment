@@ -69,20 +69,3 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
 
 /* 「/」でアクセスした場合が、loginページにリダイレクト**/
 Route::redirect('/','/user/login');
-
-//一般ユーザのダッシュボードに遷移
-//Route::get('/user/home', 'App\Http\Controllers\GeneralUserController@index')->middleware('auth:user');
-//Route::get('/admin/home', 'App\Http\Controllers\AdminController@index')->middleware('auth:admin');
-
-//稼働報告情報画面に遷移
-//Route::get('/report', 'App\Http\Controllers\@showReport')->name('report')->middleware('auth:admin');
-//Route::post('/report', 'App\Http\Controllers\GeneralUserController@postReport');
-
-//管理者用のダッシュボードに遷移
-//Route::get('/admin/home', 'App\Http\Controllers\AdminController@index');
-    
-//ドライバー稼働検索画面に遷移
-//Route::get('/driver-operation', 'App\Http\Controllers\AdminController@showDriverOperation');
-//Route::post('/driver-operation', 'App\Http\Controllers\AdminController@searchDriverOperation');
-
-//Route::get('/driver-operation/{user_id}', 'App\Http\Controllers\AdminController@showDriverOperationUser');
